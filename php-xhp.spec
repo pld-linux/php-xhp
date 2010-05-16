@@ -12,6 +12,7 @@ Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	3abc2cdb5ba57594db7c4d7445c6000d
 URL:		http://wiki.github.com/facebook/xhp/
+# if you use git checkout:
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
 BuildRequires:	gcc >= 6:4.0
