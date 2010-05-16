@@ -12,9 +12,10 @@ Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	3abc2cdb5ba57594db7c4d7445c6000d
 URL:		http://wiki.github.com/facebook/xhp/
-BuildRequires:	bison >= 2.3
-BuildRequires:	flex >= 2.5.35
+#BuildRequires:	bison >= 2.3
+#BuildRequires:	flex >= 2.5.35
 BuildRequires:	gcc >= 6:4.0
+BuildRequires:	libstdc++-devel
 BuildRequires:	php-devel >= 3:5.2.0
 BuildRequires:	re2c >= 0.13.5
 BuildRequires:	rpmbuild(macros) >= 1.519
@@ -38,7 +39,7 @@ phpize
 	CXX="%{__cxx}" \
 	CPPFLAGS="-fPIC %{rpmcxxflags} -minline-all-stringops"
 
-%{?with_tests:%{__make} test}}
+%{?with_tests:%{__make} test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
