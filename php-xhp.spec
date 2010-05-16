@@ -6,7 +6,7 @@
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
 Version:	1.3.8
-Release:	1
+Release:	2
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
@@ -29,6 +29,16 @@ that XML document fragments become valid PHP expressions. This allows
 you to use PHP as a stricter templating engine and offers much more
 straightforward implementation of reusable components.
 
+%package devel
+Summary:	Header files for xhp
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki xhp
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	php-devel >= 4:5.2.0
+
+%description devel
+Header files for xhp.
+
 %prep
 %setup -qc
 mv facebook-%{modname}-*/* .
@@ -48,6 +58,7 @@ install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
 
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT \
+	INSTALL_HEADERS=xhp/xhp_preprocess.hpp \
 	EXTENSION_DIR=%{php_extensiondir}
 cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
 ; Enable %{modname} extension module
@@ -70,3 +81,8 @@ fi
 %doc INSTALL
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{modname}.ini
 %attr(755,root,root) %{php_extensiondir}/%{modname}.so
+
+%files devel
+%defattr(644,root,root,755)
+%dir %{_includedir}/php/xhp
+%{_includedir}/php/xhp/xhp_preprocess.hpp
