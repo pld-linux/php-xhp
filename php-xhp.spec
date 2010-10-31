@@ -5,13 +5,13 @@
 %define		modname	xhp
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
-Version:	1.3.8
-Release:	2
+Version:	1.3.9
+Release:	1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3abc2cdb5ba57594db7c4d7445c6000d
-URL:		http://wiki.github.com/facebook/xhp/
+# Source0-md5:	38cab2551dc3a4e1bc5a68d2be39e64a
+URL:		http://github.com/facebook/xhp/wiki
 # if you use git checkout:
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
@@ -44,22 +44,38 @@ Header files for xhp.
 mv facebook-%{modname}-*/* .
 
 %build
+%{__make} -C xhp \
+	libdir=%{_libdir} \
+	CXX="%{__cxx}" \
+	OPTFLAGS="%{rpmcxxflags}"
+
 phpize
 %configure
 %{__make} \
+	CC="%{__cc}" \
 	CXX="%{__cxx}" \
-	CPPFLAGS="-fPIC %{rpmcxxflags} -minline-all-stringops"
+	CXXFLAGS="%{rpmcxxflags}"
 
-%{?with_tests:%{__make} test}
+%if %{with tests}
+cat <<'EOF' > run-tests.sh
+#!/bin/sh
+export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
+unset TZ LANG LC_ALL || :
+%{__make} test \
+	RUN_TESTS_SETTINGS="-q $*"
+EOF
+chmod +x run-tests.sh
+./run-tests.sh -w failed.log -s test.log
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
-
 %{__make} install \
-	INSTALL_ROOT=$RPM_BUILD_ROOT \
 	INSTALL_HEADERS=xhp/xhp_preprocess.hpp \
-	EXTENSION_DIR=%{php_extensiondir}
+	EXTENSION_DIR=%{php_extensiondir} \
+	INSTALL_ROOT=$RPM_BUILD_ROOT
+
+install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
 cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
 ; Enable %{modname} extension module
 extension=%{modname}.so
