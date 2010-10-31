@@ -83,6 +83,7 @@ unset TZ LANG LC_ALL || :
 EOF
 chmod +x run-tests.sh
 ./run-tests.sh -w failed.log -s test.log
+test -s failed.log
 %endif
 
 %install
