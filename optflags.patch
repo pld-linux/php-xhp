@@ -1,0 +1,22 @@
+--- php-xhp-1.3.9/xhp/Makefile~	2010-05-28 14:06:59.000000000 +0300
++++ php-xhp-1.3.9/xhp/Makefile	2010-10-31 15:05:15.465496881 +0200
+@@ -1,7 +1,9 @@
++OPTFLAGS = -Wall -O3 
++
+ ifdef DEBUG
+ CPPFLAGS = -fPIC -ggdb -Wall -DDEBUG
+ else
+-CPPFLAGS = -fPIC -g -Wall -O3 -minline-all-stringops
++CPPFLAGS = -fPIC -g $(OPTFLAGS) -minline-all-stringops
+ endif
+ 
+ ifdef PROFILE
+@@ -38,7 +40,7 @@
+ 	$(AR) -crs $@ $^
+ 
+ libxhp.so: code_rope.o scanner.lex.o parser.yacc.o fastpath.o xhp_preprocess.o
+-	g++ -shared -Wl,-soname,libxhp.so -o libxhp.so $^
++	$(CXX) -shared -Wl,-soname,libxhp.so -o libxhp.so $^
+ 
+ xhpize: xhpize.cpp libxhp.a
+ 	$(CXX) $(CPPFLAGS) -o $@ $^

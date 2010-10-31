@@ -12,6 +12,7 @@ Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	38cab2551dc3a4e1bc5a68d2be39e64a
 URL:		http://github.com/facebook/xhp/wiki
+Patch0:		optflags.patch
 # if you use git checkout:
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
@@ -42,6 +43,7 @@ Header files for xhp.
 %prep
 %setup -qc
 mv facebook-%{modname}-*/* .
+%patch0 -p1
 
 %build
 %{__make} -C xhp \
