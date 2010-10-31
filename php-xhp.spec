@@ -16,8 +16,7 @@ Patch0:		optflags.patch
 # if you use git checkout:
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
-BuildRequires:	gcc >= 6:4.0
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 5:4.0
 BuildRequires:	php-devel >= 3:5.2.0
 BuildRequires:	re2c >= 0.13.5
 BuildRequires:	rpmbuild(macros) >= 1.519
