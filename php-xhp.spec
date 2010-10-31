@@ -56,7 +56,7 @@ Header files for xhp.
 mv facebook-%{modname}-*/* .
 %patch0 -p1
 
-%ifarch sparc ppc
+%ifarch alpha sparc ppc
 %{__sed} -i -e 's/-minline-all-stringops//' xhp/Makefile
 %endif
 
