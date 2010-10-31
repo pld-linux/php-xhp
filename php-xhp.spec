@@ -56,6 +56,10 @@ Header files for xhp.
 mv facebook-%{modname}-*/* .
 %patch0 -p1
 
+%ifarch sparc ppc
+%{__sed} -i -e 's/-minline-all-stringops//' xhp/Makefile
+%endif
+
 %build
 %{__make} -C xhp \
 	libdir=%{_libdir} \
