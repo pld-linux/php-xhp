@@ -2,6 +2,13 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
+%if "%{pld_release}" == "ac"
+# add suffix, but allow ccache, etc in ~/.rpmmacros
+%{expand:%%define	__cc	%(echo '%__cc' | sed -e 's,-gcc,-gcc4,')}
+%{expand:%%define	__cxx	%(echo '%__cxx' | sed -e 's,-g++,-g++4,')}
+%{expand:%%define	__cpp	%(echo '%__cpp' | sed -e 's,-gcc,-gcc4,')}
+%endif
+
 %define		modname	xhp
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
@@ -19,8 +26,13 @@ Patch0:		optflags.patch
 BuildRequires:	libstdc++-devel >= 5:4.0
 BuildRequires:	php-devel >= 3:5.2.0
 BuildRequires:	re2c >= 0.13.5
+BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.519
 %{?requires_php_extension}
+# gcc4 might be installed, but not current __cc
+%if "%(echo %{cc_version} | cut -d. -f1,2)" < "4.0"
+BuildRequires:	__cc >= 4.0
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
