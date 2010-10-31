@@ -94,6 +94,9 @@ cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
 extension=%{modname}.so
 EOF
 
+install -d $RPM_BUILD_ROOT%{php_data_dir}/xhp
+cp -a php-lib/* $RPM_BUILD_ROOT%{php_data_dir}/xhp
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -110,6 +113,7 @@ fi
 %doc INSTALL
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{modname}.ini
 %attr(755,root,root) %{php_extensiondir}/%{modname}.so
+%{php_data_dir}/xhp
 
 %files devel
 %defattr(644,root,root,755)
