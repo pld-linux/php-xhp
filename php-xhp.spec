@@ -13,7 +13,7 @@
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
 Version:	1.3.9
-Release:	1
+Release:	2
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
