@@ -20,11 +20,13 @@ Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.ta
 # Source0-md5:	38cab2551dc3a4e1bc5a68d2be39e64a
 URL:		http://github.com/facebook/xhp/wiki
 Patch0:		optflags.patch
+%{?with_tests:BuildRequires:	/usr/bin/php}
 # if you use git checkout:
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
 BuildRequires:	libstdc++-devel >= 5:4.0
 BuildRequires:	php-devel >= 3:5.2.0
+%{?with_tests:BuildRequires:	php-pcre}
 BuildRequires:	re2c >= 0.13.5
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.519
@@ -83,7 +85,7 @@ unset TZ LANG LC_ALL || :
 EOF
 chmod +x run-tests.sh
 ./run-tests.sh -w failed.log -s test.log
-test -s failed.log
+! test -s failed.log
 %endif
 
 %install
