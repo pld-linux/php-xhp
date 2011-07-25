@@ -13,7 +13,7 @@
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
 Version:	1.3.9
-Release:	5
+Release:	6
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
@@ -105,7 +105,7 @@ cp -a php-lib/* $RPM_BUILD_ROOT%{php_data_dir}/xhp
 
 # files used by hiphop-php
 install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}}
-ln -s %{php_extensiondir}/libxhp.so $RPM_BUILD_ROOT%{_libdir}/libxhp.so
+ln -s %{php_extensiondir}/%{modname}.so $RPM_BUILD_ROOT%{_libdir}/libxhp.so
 cp -p xhp/xhp_preprocess.hpp $RPM_BUILD_ROOT%{_includedir}
 
 %clean
