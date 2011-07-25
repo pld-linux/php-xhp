@@ -13,7 +13,7 @@
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
 Version:	1.3.9
-Release:	3
+Release:	4
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
@@ -104,6 +104,9 @@ EOF
 install -d $RPM_BUILD_ROOT%{php_data_dir}/xhp
 cp -a php-lib/* $RPM_BUILD_ROOT%{php_data_dir}/xhp
 
+install -d $RPM_BUILD_ROOT%{_libdir}
+ln -s %{php_extensiondir}/libxhp.so $RPM_BUILD_ROOT%{_libdir}/libxhp.so
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -126,3 +129,4 @@ fi
 %defattr(644,root,root,755)
 %dir %{_includedir}/php/xhp
 %{_includedir}/php/xhp/xhp_preprocess.hpp
+%{_libdir}/libxhp.so
