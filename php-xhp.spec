@@ -13,7 +13,7 @@
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
 Version:	1.3.9
-Release:	4
+Release:	5
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
@@ -91,7 +91,6 @@ chmod +x run-tests.sh
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
-	INSTALL_HEADERS=xhp/xhp_preprocess.hpp \
 	EXTENSION_DIR=%{php_extensiondir} \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
@@ -104,8 +103,10 @@ EOF
 install -d $RPM_BUILD_ROOT%{php_data_dir}/xhp
 cp -a php-lib/* $RPM_BUILD_ROOT%{php_data_dir}/xhp
 
-install -d $RPM_BUILD_ROOT%{_libdir}
+# files used by hiphop-php
+install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}}
 ln -s %{php_extensiondir}/libxhp.so $RPM_BUILD_ROOT%{_libdir}/libxhp.so
+cp -p xhp/xhp_preprocess.hpp $RPM_BUILD_ROOT%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -127,6 +128,5 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%dir %{_includedir}/php/xhp
-%{_includedir}/php/xhp/xhp_preprocess.hpp
+%{_includedir}/xhp_preprocess.hpp
 %{_libdir}/libxhp.so
