@@ -13,7 +13,7 @@
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
 Version:	1.3.9
-Release:	9
+Release:	10
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
@@ -66,14 +66,14 @@ mv facebook-%{modname}-*/* .
 %{__make} -C xhp \
 	libdir=%{_libdir} \
 	CXX="%{__cxx}" \
-	OPTFLAGS="%{rpmcxxflags}"
+	OPTFLAGS="%{rpmcxxflags} -fpermissive"
 
 phpize
 %configure
 %{__make} \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
-	CXXFLAGS="%{rpmcxxflags}"
+	CXXFLAGS="%{rpmcxxflags} -fpermissive"
 
 %if %{with tests}
 cat <<'EOF' > run-tests.sh
