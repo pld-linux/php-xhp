@@ -12,12 +12,12 @@
 %define		modname	xhp
 Summary:	Inline XML For PHP
 Name:		php-%{modname}
-Version:	1.3.9
-Release:	10
+Version:	1.4
+Release:	1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
-Source0:	http://github.com/facebook/xhp/tarball/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	38cab2551dc3a4e1bc5a68d2be39e64a
+Source0:	https://github.com/facebook/xhp/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	98d56ee6b5bc22f76be4106a224c5875
 URL:		http://github.com/facebook/xhp/wiki
 Patch0:		optflags.patch
 %{?with_tests:BuildRequires:	/usr/bin/php}
@@ -54,8 +54,7 @@ Requires:	php-devel >= 4:5.2.0
 Header files for xhp.
 
 %prep
-%setup -qc
-mv facebook-%{modname}-*/* .
+%setup -q -n %{modname}-%{version}
 %patch0 -p1
 
 %ifarch alpha sparc ppc
@@ -130,5 +129,5 @@ fi
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/xhp_preprocess.hpp
-#%{_libdir}/libxhp.so
+%{_libdir}/libxhp.so
 %{_libdir}/libxhp.a
