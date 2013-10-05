@@ -9,27 +9,28 @@
 %{expand:%%define	__cpp	%(echo '%__cpp' | sed -e 's,-gcc,-gcc4,')}
 %endif
 
+%define		php_name	php%{?php_suffix}
 %define		modname	xhp
 Summary:	Inline XML For PHP
-Name:		php-%{modname}
+Name:		%{php_name}-%{modname}
 Version:	1.4
 Release:	1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
-Source0:	https://github.com/facebook/xhp/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/facebook/xhp/archive/%{version}/php-%{modname}-%{version}.tar.gz
 # Source0-md5:	98d56ee6b5bc22f76be4106a224c5875
 URL:		http://github.com/facebook/xhp/wiki
 Patch0:		optflags.patch
+BuildRequires:	%{php_name}-devel >= 4:5.2.0
 %{?with_tests:BuildRequires:	/usr/bin/php}
 # if you use git checkout:
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
 BuildRequires:	libstdc++-devel >= 5:4.0
-BuildRequires:	php-devel >= 3:5.2.0
 %{?with_tests:BuildRequires:	php-pcre}
 BuildRequires:	re2c >= 0.13.5
 BuildRequires:	rpm >= 4.4.9-56
-BuildRequires:	rpmbuild(macros) >= 1.519
+BuildRequires:	rpmbuild(macros) >= 1.666
 %{?requires_php_extension}
 # gcc4 might be installed, but not current __cc
 %if "%(echo %{cc_version} | cut -d. -f1,2)" < "4.0"
@@ -121,7 +122,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc INSTALL
+%doc README.textile INSTALL
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{modname}.ini
 %attr(755,root,root) %{php_extensiondir}/%{modname}.so
 %{php_data_dir}/xhp
