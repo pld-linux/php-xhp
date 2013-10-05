@@ -36,6 +36,7 @@ BuildRequires:	rpmbuild(macros) >= 1.666
 %if "%(echo %{cc_version} | cut -d. -f1,2)" < "4.0"
 BuildRequires:	__cc >= 4.0
 %endif
+Requires(post,postun):	/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -102,20 +103,23 @@ EOF
 
 install -d $RPM_BUILD_ROOT%{php_data_dir}/xhp
 cp -a php-lib/* $RPM_BUILD_ROOT%{php_data_dir}/xhp
+install -p xhp/libxhp.so $RPM_BUILD_ROOT%{_libdir}
 
 # files used by hiphop-php
 install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}}
-ln -s %{php_extensiondir}/%{modname}.so $RPM_BUILD_ROOT%{_libdir}/libxhp.so
 cp -p xhp/libxhp.a $RPM_BUILD_ROOT%{_libdir}
 cp -p xhp/xhp_preprocess.hpp $RPM_BUILD_ROOT%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+
 %post
+/sbin/ldconfig
 %php_webserver_restart
 
 %postun
+/sbin/ldconfig
 if [ "$1" = 0 ]; then
 	%php_webserver_restart
 fi
@@ -125,10 +129,10 @@ fi
 %doc README.textile INSTALL
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{modname}.ini
 %attr(755,root,root) %{php_extensiondir}/%{modname}.so
+%{_libdir}/libxhp.so
 %{php_data_dir}/xhp
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/xhp_preprocess.hpp
-%{_libdir}/libxhp.so
 %{_libdir}/libxhp.a
