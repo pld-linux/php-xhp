@@ -14,7 +14,7 @@
 Summary:	Inline XML For PHP
 Name:		%{php_name}-%{modname}
 Version:	1.4
-Release:	1
+Release:	2
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://github.com/facebook/xhp/archive/%{version}/php-%{modname}-%{version}.tar.gz
