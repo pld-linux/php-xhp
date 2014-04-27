@@ -2,23 +2,16 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
-%if "%{pld_release}" == "ac"
-# add suffix, but allow ccache, etc in ~/.rpmmacros
-%{expand:%%define	__cc	%(echo '%__cc' | sed -e 's,-gcc,-gcc4,')}
-%{expand:%%define	__cxx	%(echo '%__cxx' | sed -e 's,-g++,-g++4,')}
-%{expand:%%define	__cpp	%(echo '%__cpp' | sed -e 's,-gcc,-gcc4,')}
-%endif
-
 %define		php_name	php%{?php_suffix}
 %define		modname	xhp
 Summary:	Inline XML For PHP
 Name:		%{php_name}-%{modname}
-Version:	1.4
-Release:	2
+Version:	1.5
+Release:	1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://github.com/facebook/xhp/archive/%{version}/php-%{modname}-%{version}.tar.gz
-# Source0-md5:	98d56ee6b5bc22f76be4106a224c5875
+# Source0-md5:	b9a552d6cd823a82f2e57037aed42a69
 URL:		http://github.com/facebook/xhp/wiki
 Patch0:		optflags.patch
 BuildRequires:	%{php_name}-devel >= 4:5.2.0
@@ -32,10 +25,6 @@ BuildRequires:	re2c >= 0.13.5
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.666
 %{?requires_php_extension}
-# gcc4 might be installed, but not current __cc
-%if "%(echo %{cc_version} | cut -d. -f1,2)" < "4.0"
-BuildRequires:	__cc >= 4.0
-%endif
 Requires(post,postun):	/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -62,10 +51,6 @@ Header files for xhp.
 # disable failing tests
 mv tests/idx-01.phpt{,.fail}
 mv tests/trait.phpt{,.fail}
-
-%ifarch alpha sparc ppc
-%{__sed} -i -e 's/-minline-all-stringops//' xhp/Makefile
-%endif
 
 %build
 %{__make} -C xhp \
