@@ -20,7 +20,7 @@ BuildRequires:	%{php_name}-devel >= 4:5.2.0
 #BuildRequires:	bison >= 2.3
 #BuildRequires:	flex >= 2.5.35
 BuildRequires:	libstdc++-devel >= 5:4.0
-%{?with_tests:BuildRequires:	php-pcre}
+%{?with_tests:BuildRequires:	%{php_name}-pcre}
 BuildRequires:	re2c >= 0.13.5
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.666
